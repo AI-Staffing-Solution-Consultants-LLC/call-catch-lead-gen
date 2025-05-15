@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -72,7 +73,7 @@ const Footer = () => {
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                     <polyline points="22,6 12,13 2,6" />
                   </svg>
-                  <span className="text-muted-foreground">info@aistaffing.com</span>
+                  <span className="text-muted-foreground">sales@aistaffingsolutionconsultants.com</span>
                 </li>
                 <li className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2 text-brand-500">
