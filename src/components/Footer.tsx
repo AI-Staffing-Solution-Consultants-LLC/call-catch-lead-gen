@@ -80,7 +80,7 @@ const Footer = () => {
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                     <circle cx="12" cy="10" r="3" />
                   </svg>
-                  <span className="text-muted-foreground">123 Business Ave, Suite 500<br />Tech City, CA 94107</span>
+                  <span className="text-muted-foreground">418 Broadway STE N,<br />Albany, NY 12207</span>
                 </li>
               </ul>
               
