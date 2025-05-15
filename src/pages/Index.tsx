@@ -1,8 +1,8 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import ChatInterface from '@/components/ChatInterface';
 import ProductHighlight from '@/components/ProductHighlight';
+import SolutionsGrid from '@/components/SolutionsGrid';
 import TestimonialSection from '@/components/TestimonialSection';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -133,6 +133,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+      
+      {/* New Solutions Grid Section */}
+      <SolutionsGrid />
       
       {/* Product Showcase */}
       <ProductHighlight />
