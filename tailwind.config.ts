@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,32 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom color theme
+				brand: {
+					50: '#e6f4ff',
+					100: '#bae3ff',
+					200: '#7cc4fa',
+					300: '#36a5f5',
+					400: '#0b86e3',
+					500: '#0069cc',
+					600: '#0053ad',
+					700: '#003c82',
+					800: '#002857',
+					900: '#00162d',
+				},
+				teal: {
+					50: '#e6fffd',
+					100: '#b3fff9',
+					200: '#80f9ec',
+					300: '#4defe0',
+					400: '#1ad9c7',
+					500: '#00b8a5',
+					600: '#009487',
+					700: '#007063',
+					800: '#004c42',
+					900: '#002821',
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +110,35 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-slow': {
+					'0%, 100%': {
+						opacity: '1',
+					},
+					'50%': {
+						opacity: '0.8',
+					},
+				},
+				'typing': {
+					'0%': { width: '0%' },
+					'100%': { width: '100%' }
+				},
+				'blink': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-slow': 'pulse-slow 3s infinite',
+				'typing': 'typing 3.5s steps(40, end)',
+				'blink': 'blink 1s step-end infinite',
+				'float': 'float 6s ease-in-out infinite'
 			}
 		}
 	},
