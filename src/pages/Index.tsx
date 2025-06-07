@@ -1,9 +1,11 @@
+
 import React from 'react';
 import Header from '@/components/Header';
 import ChatInterface from '@/components/ChatInterface';
 import ProductHighlight from '@/components/ProductHighlight';
 import SolutionsGrid from '@/components/SolutionsGrid';
 import TestimonialSection from '@/components/TestimonialSection';
+import SocialMediaSection from '@/components/SocialMediaSection';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
@@ -142,6 +144,9 @@ const Index = () => {
       
       {/* Testimonials */}
       <TestimonialSection />
+      
+      {/* Social Media Section */}
+      <SocialMediaSection />
       
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-brand-500 to-teal-500 text-white">
