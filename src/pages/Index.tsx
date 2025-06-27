@@ -9,8 +9,13 @@ import SocialMediaSection from '@/components/SocialMediaSection';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -35,13 +40,38 @@ const Index = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button className="bg-gradient-to-r from-brand-500 to-teal-500 hover:from-brand-600 hover:to-teal-600 text-white h-12 px-8">
-                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-                <Button variant="outline" className="h-12 px-8">
-                  View Demo
-                </Button>
+                {user ? (
+                  <>
+                    <Button className="bg-gradient-to-r from-brand-500 to-teal-500 hover:from-brand-600 hover:to-teal-600 text-white h-12 px-8">
+                      Access Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" className="h-12 px-8">
+                      View Services
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      className="bg-gradient-to-r from-brand-500 to-teal-500 hover:from-brand-600 hover:to-teal-600 text-white h-12 px-8"
+                      onClick={() => navigate('/auth')}
+                    >
+                      Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" className="h-12 px-8">
+                      View Demo
+                    </Button>
+                  </>
+                )}
               </div>
+              
+              {user && (
+                <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-green-800">
+                    Welcome back, {user.user_metadata?.first_name || user.email}! 
+                    You're now signed in and can access all our AI-powered features.
+                  </p>
+                </div>
+              )}
               
               <div className="mt-8 flex items-center justify-center lg:justify-start space-x-4">
                 <div className="flex -space-x-3">
@@ -129,8 +159,11 @@ const Index = () => {
           </div>
           
           <div className="mt-16 text-center">
-            <Button className="bg-brand-500 hover:bg-brand-600">
-              Schedule a Demo <ArrowRight className="ml-2 h-4 w-4" />
+            <Button 
+              className="bg-brand-500 hover:bg-brand-600"
+              onClick={() => user ? undefined : navigate('/auth')}
+            >
+              {user ? 'Access Your Dashboard' : 'Schedule a Demo'} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -158,8 +191,13 @@ const Index = () => {
               and growing revenue with our AI staffing solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="default" className="bg-white text-brand-600 hover:bg-gray-100">
-                Get Started Today
+              <Button 
+                size="lg" 
+                variant="default" 
+                className="bg-white text-brand-600 hover:bg-gray-100"
+                onClick={() => user ? undefined : navigate('/auth')}
+              >
+                {user ? 'Access Dashboard' : 'Get Started Today'}
               </Button>
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
                 Contact Sales
