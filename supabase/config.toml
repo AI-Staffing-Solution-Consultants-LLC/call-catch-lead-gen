@@ -1,1 +1,4 @@
 project_id = "gemtiywsoudojqbjyalr"
+
+[functions.tavus-conversation]
+verify_jwt = false

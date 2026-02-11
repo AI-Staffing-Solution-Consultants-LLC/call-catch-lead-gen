@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Header from '@/components/Header';
-import ChatInterface from '@/components/ChatInterface';
+import TavusVideoWidget from '@/components/TavusVideoWidget';
 import ProductHighlight from '@/components/ProductHighlight';
 import SolutionsGrid from '@/components/SolutionsGrid';
 import TestimonialSection from '@/components/TestimonialSection';
@@ -104,7 +104,7 @@ const Index = () => {
             
             <div className="lg:w-1/2 flex justify-center lg:justify-end">
               <div className="animate-float">
-                <ChatInterface />
+                <TavusVideoWidget />
               </div>
             </div>
           </div>
