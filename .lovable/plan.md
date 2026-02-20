@@ -1,60 +1,58 @@
 
+# Fix Supabase Edge Function Deployment
 
-# Update Supabase Project Configuration
+## The Core Problem
 
-## Overview
-This plan updates your project to connect to your new Supabase project at `gemtiywsoudojqbjyalr.supabase.co`.
+Lovable's internal edge function deploy tool returns `"Project not found"` for project `odvabvtzagpskkokhcfo`. This is a platform authentication issue — Lovable's deploy service can't link to this specific Supabase project. The `--use-api` flag you mentioned is only usable via CLI, not from within Lovable's environment.
 
-## What Will Change
+The edge function code itself is correct. It just needs to be deployed.
 
-### 1. Update Supabase Client Configuration
-Update the Supabase client file with the new project credentials:
-- **New URL**: `https://gemtiywsoudojqbjyalr.supabase.co`
-- **New Publishable Key**: `sb_publishable_3JN0KkGb0yoF7YJdbD6qXA_oJlys0j1`
+## Solution: Two-Part Approach
 
-**File**: `src/integrations/supabase/client.ts`
+### Part 1 — You Deploy via CLI (2 minutes, one-time)
 
-### 2. Update Project Configuration
-Update the Supabase config.toml with the new project ID:
-- **New Project ID**: `gemtiywsoudojqbjyalr`
+Since Lovable can't deploy it, you run one command locally using the `--use-api` flag (no Docker required):
 
-**File**: `supabase/config.toml`
+```text
+npx supabase functions deploy tavus-conversation \
+  --project-ref odvabvtzagpskkokhcfo \
+  --use-api
+```
 
-### 3. Update Environment Variables
-Update the .env file with new credentials.
+You'll be prompted to log in with your token (`sbp_1e04b80aeaf091a5c8356d5369067bbffafa39bf`) or it will use your existing Supabase CLI session.
 
-**File**: `.env`
+If you haven't authenticated yet:
+```text
+npx supabase login --token sbp_1e04b80aeaf091a5c8356d5369067bbffafa39bf
+npx supabase functions deploy tavus-conversation --project-ref odvabvtzagpskkokhcfo --use-api
+```
 
----
+The function code already exists at `supabase/functions/tavus-conversation/index.ts` — the CLI will pick it up automatically.
 
-## Important: Database Setup Required
+### Part 2 — I Fix the CORS Headers (Code Change)
 
-Since you're connecting to a **new Supabase project**, the database tables and RLS policies we created earlier (profiles table, triggers, etc.) do **not exist** in this new project.
+While reviewing the edge function, I noticed the CORS `Access-Control-Allow-Headers` list is missing some headers that Supabase's JS client automatically sends (`x-client-info`, etc.). I'll update the edge function to use the full recommended header list to prevent CORS errors in production.
 
-After switching to the new project, you will need to:
-
-1. **Run the profiles table migration** - Create the user profiles table with RLS policies
-2. **Set up the auth trigger** - Create the trigger that automatically creates a profile when a user signs up
-
-I will help you run these SQL migrations after the configuration is updated.
-
----
-
-## Technical Details
-
-### Files to Modify
+## Files to Modify
 
 | File | Change |
 |------|--------|
-| `src/integrations/supabase/client.ts` | Update SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY |
-| `supabase/config.toml` | Update project_id |
-| `.env` | Update all three VITE_SUPABASE_* variables |
+| `supabase/functions/tavus-conversation/index.ts` | Expand CORS headers to full recommended set |
 
-### New Configuration Values
+## Updated Edge Function
 
 ```text
-Project ID:      gemtiywsoudojqbjyalr
-URL:             https://gemtiywsoudojqbjyalr.supabase.co
-Publishable Key: sb_publishable_3JN0KkGb0yoF7YJdbD6qXA_oJlys0j1
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
 ```
 
+## Verify TAVUS_API_KEY Secret is Set
+
+The `TAVUS_API_KEY` secret is already listed in your Supabase project secrets — so once the function is deployed, it should work immediately.
+
+## After You Deploy
+
+Once you run the CLI command, the video chat widget on the homepage will be fully functional. Clicking "Start Video Chat" will call the edge function, which calls Tavus, and returns the live conversation URL embedded in the iframe.
